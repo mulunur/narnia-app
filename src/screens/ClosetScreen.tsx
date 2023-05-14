@@ -54,7 +54,6 @@ export function SkapScreen ({navigation}) {
                 <PictureCard image={item.rmbg_image} key={item.id}/>
               ))}
             </ScrollView>
-            <Text>Scap screen</Text>
         </View>
     )
 

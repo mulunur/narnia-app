@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {Canvas, useCanvasRef} from '@shopify/react-native-skia'
 import {GestureDetector, Gesture} from 'react-native-gesture-handler'
-import { Button, View, Image, Animated } from 'react-native';
+import { Button, View, Image, Animated, Pressable } from 'react-native';
 import {useSharedValue, useAnimatedStyle} from 'react-native-reanimated'
 import {identity4, multiply4, Matrix4} from 'react-native-redash'
 import * as ImagePicker from 'expo-image-picker';
 import Permissions from 'react-native-permissions';
 import { HOST_WITH_PORT } from '../../environment.js'
 import axios from 'axios';
+import { styles } from './styles';
 
 export function NewLookScreen({ navigation }) {
     
@@ -40,6 +41,9 @@ export function NewLookScreen({ navigation }) {
 
     return (
         <View>
+            <Pressable onPress={() => navigation.navigate('ClosetScreen')}>
+                <Image style={styles.addItem} source={require("./img/plus.png")}/>
+            </Pressable>
             <GestureDetector gesture={Gesture.Race(pan, pinch, rotation)}>
                 <Animated.View style={style}>
                     <Canvas>
@@ -48,7 +52,7 @@ export function NewLookScreen({ navigation }) {
                 </Animated.View>
                 
             </GestureDetector>
-            <Button title='Создать коллаж'
+            <Button title='Сохранить коллаж'
             onPress={() => saveCollague()}/>
         
             

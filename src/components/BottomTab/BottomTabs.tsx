@@ -27,14 +27,14 @@ export function BottomTabs ({navigation}) {
                 let rn = route.name
                 //console.log(rn)
 
-                if (rn == skapName) {
-                    iconPath = focused ? './img/sweater.png' : './img/sweater-outline.png'
-                }
-                if (rn == looksName) {
-                    iconPath = focused ? './img/clothes.png' : './img/clothes-outline.png'
-                }
+                // if (rn == skapName) {
+                //     iconPath = focused ? './img/sweater.png' : './img/sweater-outline.png'
+                // }
+                // if (rn == looksName) {
+                //     iconPath = focused ? './img/clothes.png' : './img/clothes-outline.png'
+                // }
 
-                return <BottomIcon name={iconPath} size={2} color={color}/>
+                return <BottomIcon name={rn} size={2} color={color}/>
                
             },
             tabBarActiveTintColor: 'blue',

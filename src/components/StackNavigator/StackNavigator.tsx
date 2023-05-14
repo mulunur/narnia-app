@@ -2,7 +2,6 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NewItemScreen } from '../../screens/NewItemScreen';
 import { BottomTabs } from '../BottomTab/BottomTabs';
-import { CameraScreen } from '../../screens/CameraScreen';
 import { NewLookScreen } from '../../screens/NewLookScreen';
 
 
