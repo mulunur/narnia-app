@@ -57,7 +57,7 @@ export function NewItemScreen({ navigation }) {
             }
 
             let formData1 = new FormData()
-            formData1.append('image', image?.uri, "image_test.jpg")
+            formData1.append('image', image, "image_test.jpg")
            
             formData1.append('category', 'test')
             formData1.append('color', 'test')
