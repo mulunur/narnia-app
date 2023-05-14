@@ -16,9 +16,16 @@ export function BottomTabs ({navigation}) {
         <Tab.Navigator 
         initialRouteName={looksName} 
         screenOptions={({route}) => ({
+            
+            //tapBarShowLabel: false,
+            headerShown:true,
+            // tabBarLabel(props) {
+            //     focused: false
+            // },
             tabBarIcon: ({focused, color, size}) => {
                 let iconPath = './img/sweater.png'
                 let rn = route.name
+                //console.log(rn)
 
                 if (rn == skapName) {
                     iconPath = focused ? './img/sweater.png' : './img/sweater-outline.png'
@@ -28,8 +35,9 @@ export function BottomTabs ({navigation}) {
                 }
 
                 return <BottomIcon name={iconPath} size={2} color={color}/>
+               
             },
-            tabBarActiveTintColor: 'tomato',
+            tabBarActiveTintColor: 'blue',
             tabBarInactiveTintColor: 'gray'
         })}
         >
