@@ -10,10 +10,10 @@ export function StackNavigator() {
     const Stack = createNativeStackNavigator()
   
     return (
-    <Stack.Navigator screenOptions={{headerShown: true}}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Bottom Tab Navigator" component={BottomTabs}/>
       <Stack.Screen name="NewItemScreen" component={NewItemScreen}/>
-      <Stack.Screen name="NewLookScreen" component={NewLookScreen}/>
+      <Stack.Screen name="NewLookScreen" component={NewLookScreen} initialParams={{itemsListLength: 0}}/>
       {/* <Stack.Screen name="ImagePickScreen" component={CameraScreen}/> */}
     </Stack.Navigator>
   )

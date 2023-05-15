@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button, View, Image, TextInput } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Permissions from 'react-native-permissions';
 import { HOST_WITH_PORT } from '../../environment.js'
-import axios from 'axios';
-import RNFetchBlob from 'rn-fetch-blob'
+import {manipulateAsync} from 'expo-image-manipulator'
+
+
 
 export function NewItemScreen({ navigation }) {
     //navigation.navigate('ImagePickScreen')
@@ -12,18 +12,33 @@ export function NewItemScreen({ navigation }) {
     const [category, setCategory] = React.useState(null)
     const [color, setColor] = React.useState(null)
 
+    const reduceImage = async(rawImage) => {
+        const reduceResult = await manipulateAsync(
+            rawImage.uri, [{resize: {height: rawImage.height/4, width:rawImage.width/4}}], {compress: 0.5, base64: true}
+        )
+        return reduceResult
+    }
+
     async function TakeAPicture() {
 
         ImagePicker.requestCameraPermissionsAsync()
     
         ImagePicker.PermissionStatus.GRANTED
-        let result = await ImagePicker. launchCameraAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, base64:true}
+        let result = await ImagePicker. launchCameraAsync({ 
+            mediaTypes: ImagePicker.MediaTypeOptions.Images, 
+            base64:true, 
+            quality: 0.5,
+            
+        }
         );
+
         
-        sendImage(result.assets[0])
+        //sendImage(result.assets[0])
+        sendImage(await reduceImage(result.assets[0]))
     }
 
     const sendImage = async (image) => {
+        console.log(image)
         try {
 
             let formData = new FormData()
@@ -74,17 +89,23 @@ export function NewItemScreen({ navigation }) {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, margin:30}}>
             <Button title="Сделать фото" onPress={TakeAPicture} />
             <Button title="Выбрать из галереи" />
-            {image && <Image style={{ 
-                width: 270, 
-                height: 320,
-                alignSelf: 'center'
-                }} source={{uri: image}} />}
-            {category && <TextInput value={category} style={{alignSelf: 'center', fontSize:20}}/>}
-            {color && <TextInput value={color} style={{alignSelf: 'center', fontSize:20}}/>}
-            {image && <Button title="Сохранить" onPress={saveUserResult}/>}
+            {image && <View>
+
+            <Image style={{ 
+                width: '70%', 
+                height: 370,
+                alignSelf: 'center',
+                backgroundColor: 'white',
+                resizeMode: 'contain'
+                }} source={{uri: image}} />
+             <TextInput value={category} style={{alignSelf: 'center', fontSize:20}} onChangeText={setCategory}/>
+             <TextInput value={color} style={{alignSelf: 'center', fontSize:20}} onChangeText={setColor} />
+             <Button title="Сохранить" onPress={saveUserResult}/>
+            </View>}
+            
         </View>
     )
 

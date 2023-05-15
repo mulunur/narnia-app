@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, Text, Image, Pressable, ScrollView, TouchableOpacity } from 'react-native';
+import { View,  Image, Pressable, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { styles } from './styles';
 import { useEffect, useState } from 'react';
 import { PictureCard } from '../components/PictureCard';
 import {HOST_WITH_PORT} from '../../environment.js'
-import axios from 'axios';
+import { AddAndSearchButtonsBar } from '../components/AddAndSearchButtonsBar';
 
 
 type Picture = {
@@ -16,12 +16,16 @@ type Picture = {
 
 
 
-export function SkapScreen ({navigation}) {
+export function SkapScreen ({route, navigation}) {
     const [listImages, setListImages] = useState([])
+    
 
     useEffect(() => {
+      if(route.params?.isFetchImage){
+        const {isFetchImage} = route?.params
+      }
       fetchData()
-    }, [])
+    }, [route.params?.isFetchImage])
 
     const fetchData = async() => {
       const response = await fetch(`${HOST_WITH_PORT}/api/items/`)
@@ -42,16 +46,27 @@ export function SkapScreen ({navigation}) {
         }
       };
 
+    const picAnItem = (item,index) => {
+      if(route.params?.isFetchImage){
+        console.log(item)
+        navigation.navigate({name: 'NewLookScreen', params: {item: item}, merge: true})
+      }
+    }
+
     return (
-        <View style={{flex:1}}>
-            <Pressable onPress={() => navigation.navigate('NewItemScreen')}>
-                <Image style={styles.addItem} source={require("./img/plus.png")}/>
-            </Pressable>
-            <ScrollView>
-              {/* <Image style={{height: 100, width: 100}} source={{uri: listImages[0]?.rmbg_image}}/> */}
-              {listImages?.map((item) => (
-                // <Text key={item.rmbg_image}>{item.rmbg_image}</Text>
-                <PictureCard image={item.rmbg_image} key={item.id}/>
+        <View>
+          <AddAndSearchButtonsBar navigation={navigation}/>
+            
+            <ScrollView contentContainerStyle={styles.scrollViewCards}>
+              
+              {listImages?.map((item, index) => (
+               
+                // <PictureCard image={item.rmbg_image} key={item.id} isFetchImage={isFetchImage}/>
+                <View style={styles.itemCardContainer} key={index}>
+                <TouchableOpacity key={index} style={styles.itemCard} onPress={event => picAnItem(item, index)}>
+                  <Image style={styles.itemImage} source={{uri: item.rmbg_image}}/>
+                </TouchableOpacity>
+              </View>
               ))}
             </ScrollView>
         </View>
